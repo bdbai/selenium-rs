@@ -10,6 +10,7 @@ pub struct NewSessionRequest {
 #[derive(Serialize, Deserialize)]
 struct ChromeOptions{
     args: Vec<String>,
+    binary: String,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -34,7 +35,8 @@ impl DesiredCapabilitiesRequest {
         DesiredCapabilitiesRequest {
             browser_name,
             chromeOptions: ChromeOptions {
-                args: vec!["--headless".to_string(), "--disable-gpu".to_string()]
+                args: vec!["--headless".to_string(), "--disable-gpu".to_string()],
+                binary: "/usr/bin/google-chrome".to_string()
             }
         }
     }
