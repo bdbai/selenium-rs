@@ -5,10 +5,18 @@ pub struct NewSessionRequest {
     desired_capabilities: DesiredCapabilitiesRequest,
 }
 
+
+
+#[derive(Serialize, Deserialize)]
+struct ChromeOptions{
+    args: Vec<String>,
+}
+
 #[derive(Serialize, Deserialize)]
 struct DesiredCapabilitiesRequest {
     #[serde(rename = "browserName")]
     browser_name: String,
+    chromeOptions: ChromeOptions
 }
 
 impl NewSessionRequest {
@@ -19,9 +27,16 @@ impl NewSessionRequest {
     }
 }
 
+
+
 impl DesiredCapabilitiesRequest {
     pub fn create(browser_name: String) -> DesiredCapabilitiesRequest {
-        DesiredCapabilitiesRequest { browser_name }
+        DesiredCapabilitiesRequest {
+            browser_name,
+            chromeOptions: ChromeOptions {
+                args: vec!["--headless".to_string(), "--disable-gpu".to_string()]
+            }
+        }
     }
 }
 
