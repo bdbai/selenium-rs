@@ -22,7 +22,9 @@ use reqwest;
 use session_structs::{NewSessionRequest, NewSessionResponse, TitleResponse};
 use std::collections::HashMap;
 use utils::*;
+pub use session_structs::{DesiredCapabilitiesRequest, ChromeOptions};
 
+#[derive(Serialize, Deserialize)]
 pub enum Browser {
     Chrome,
     Firefox,
@@ -89,8 +91,8 @@ impl WebDriver {
     /// Actually starts and creates a session on the server,
     /// collecting the session ID on success, and returning an error
     /// on failure
-    pub fn start_session(&mut self) -> reqwest::Result<()> {
-        let body = NewSessionRequest::new(&self.browser);
+    pub fn start_session(&mut self, options: DesiredCapabilitiesRequest) -> reqwest::Result<()> {
+        let body = NewSessionRequest::new(&self.browser, options);
         let url = construct_url(vec!["session/"]);
 
         let response: NewSessionResponse = self.client

@@ -1,3 +1,5 @@
+use webdriver::Browser;
+
 // Session Request Object
 #[derive(Serialize, Deserialize)]
 pub struct NewSessionRequest {
@@ -7,23 +9,23 @@ pub struct NewSessionRequest {
 
 
 
-#[derive(Serialize, Deserialize)]
-struct ChromeOptions{
-    args: Vec<String>,
-    binary: String,
+#[derive(Serialize, Deserialize, Default)]
+pub struct ChromeOptions{
+    pub args: Vec<String>,
+//    binary: String,
 }
 
 #[derive(Serialize, Deserialize)]
-struct DesiredCapabilitiesRequest {
+pub struct DesiredCapabilitiesRequest {
     #[serde(rename = "browserName")]
-    browser_name: String,
-    chromeOptions: ChromeOptions
+    pub browser_name: Browser,
+    pub chromeOptions: ChromeOptions
 }
 
 impl NewSessionRequest {
-    pub fn new(browser_name: &str) -> NewSessionRequest {
+    pub fn new(browser_name: &str, options: DesiredCapabilitiesRequest) -> NewSessionRequest {
         NewSessionRequest {
-            desired_capabilities: DesiredCapabilitiesRequest::create(browser_name.to_string()),
+            desired_capabilities: options,
         }
     }
 }
@@ -31,12 +33,12 @@ impl NewSessionRequest {
 
 
 impl DesiredCapabilitiesRequest {
-    pub fn create(browser_name: String) -> DesiredCapabilitiesRequest {
+    pub fn create(browser: Browser) -> DesiredCapabilitiesRequest {
         DesiredCapabilitiesRequest {
-            browser_name,
+            browser_name: browser,
             chromeOptions: ChromeOptions {
                 args: vec!["--headless".to_string(), "--disable-gpu".to_string()],
-                binary: "/usr/bin/google-chrome".to_string()
+//                binary: "/usr/bin/google-chrome".to_string()
             }
         }
     }
