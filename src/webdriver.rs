@@ -19,7 +19,7 @@
 use element::Element;
 use element_structs::{ElementResponse, ElementsResponse, ExecuteScriptResponse};
 use reqwest;
-use session_structs::{NewSessionRequest, NewSessionResponse, TitleResponse};
+use session_structs::{*};
 use std::collections::HashMap;
 use utils::*;
 pub use session_structs::{DesiredCapabilitiesRequest, ChromeOptions};
@@ -116,6 +116,18 @@ impl WebDriver {
         let response: TitleResponse = self.client.get(url).send()?.error_for_status()?.json()?;
 
         Ok(response.get_title())
+    }
+
+    /// TODO
+    pub fn take_screenshot(&self) -> reqwest::Result<String> {
+        let url = construct_url(vec![
+            "session/",
+            &(self.session_id.clone().unwrap() + "/"),
+            "screenshot",
+        ]);
+        let response: ScreenshotResponse = self.client.get(url).send()?.error_for_status()?.json()?;
+
+        Ok(response.value)
     }
 
     pub fn get_title(&self) -> reqwest::Result<String> {

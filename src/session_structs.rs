@@ -57,6 +57,12 @@ impl NewSessionResponse {
     }
 }
 
+#[derive(Deserialize)]
+pub struct ScreenshotResponse {
+    pub value: String,
+}
+
+
 // Title Response Object
 #[derive(Deserialize)]
 pub struct TitleResponse {
