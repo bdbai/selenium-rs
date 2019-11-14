@@ -10,7 +10,7 @@ pub struct NewSessionRequest {
 
 
 #[derive(Serialize, Deserialize, Default)]
-pub struct 
+pub struct ChromeOptions
 {
     pub args: Vec<String>,
     pub w3c: bool
